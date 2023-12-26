@@ -1,6 +1,7 @@
 package vn.edu.tnut.mynotify;
 
 import android.annotation.SuppressLint;
+import android.app.AppOpsManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,10 +17,12 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 public class NotificationHelper {
@@ -34,6 +37,7 @@ public class NotificationHelper {
 
     public NotificationHelper(Context context) {
         this.context = context;
+        requestNotificationPermission(context);
         this.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Tạo Notification Channel khi tạo instance của NotificationHelper
@@ -104,5 +108,29 @@ public class NotificationHelper {
         Notification notification = builder.build();
         return notification;
     }
+    public static boolean isNotificationPermissionGranted(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Nếu phiên bản Android là Oreo (API level 26) trở lên, kiểm tra trạng thái quyền thông báo
+            return NotificationManagerCompat.from(context).areNotificationsEnabled();
+        } else {
+            // Nếu phiên bản Android dưới Oreo, kiểm tra trạng thái quyền thông báo thông qua NotificationManager
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            return notificationManager.areNotificationsEnabled();
+        }
+    }
 
+    public static void requestNotificationPermission(Context context) {
+        if (!isNotificationPermissionGranted(context)) {
+            // Nếu quyền thông báo chưa được cấp, chuyển người dùng đến màn hình cài đặt
+            Intent intent;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+            } else {
+                intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(Uri.fromParts("package", context.getPackageName(), null));
+            }
+            context.startActivity(intent);
+        }
+    }
 }

@@ -21,18 +21,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="showNotify"
-        android:text="Mp3 only: Shotgun" />
+        android:text="Mp3 only: Sniper" />
 
     <Button
         android:id="@+id/nut2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="showNotify"
-        android:text="Noitify+Sound 321FIGHT" />
+        android:text="Noitify_Sound 321FIGHT" />
+
     <Button
         android:id="@+id/nut3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="showNotify"
-        android:text="MP3+Noitify+Sound" />
+        android:text="MP3 ShotGun+Noitify_Sound" />
 </LinearLayout>

@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
             showToast("Button 1 clicked");
             //notificationHelper.showNotification("Báo cháy", "Có cháy tại Zone 3");
             //notificationHelper.showVoice();
-            MakeSound();
+            MakeSound(R.raw.sniper_rifle);
         } else if (id == R.id.nut2) {
             showToast("Button 2 clicked");
             showNotification("SOS Fire Alarm", "Fire at Zone 3");
         } else if (id == R.id.nut3) {
             showToast("Button 3 clicked");
             showNotification("SOS Fire Alarm", "Fire at Zone 3");
-            MakeSound();
+            MakeSound(R.raw.shotgun_firing);
         }
 
     }
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         notificationHelper.showNotification(title,message);
     }
 
-    void MakeSound(){
-        String soundUri = "android.resource://" + getPackageName() + "/" + R.raw.shotgun_firing;
+    void MakeSound(int res_raw_mp3){
+        String soundUri = "android.resource://" + getPackageName() + "/" + res_raw_mp3;
         //NotificationSoundService.playSound(soundUri);
         Intent serviceIntent = new Intent(this, MyBackgroundService.class);
         serviceIntent.putExtra("AUDIO_FILE_PATH", soundUri);
