@@ -8,17 +8,31 @@
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".MainActivity" >
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Demo Noitify for 56kmt"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/nut1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="showNotify"
-        android:text="Button1" />
+        android:text="Mp3 only: Shotgun" />
 
     <Button
         android:id="@+id/nut2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="showNotify"
-        android:text="Button2" />
+        android:text="Noitify+Sound 321FIGHT" />
+    <Button
+        android:id="@+id/nut3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showNotify"
+        android:text="MP3+Noitify+Sound" />
 </LinearLayout>
