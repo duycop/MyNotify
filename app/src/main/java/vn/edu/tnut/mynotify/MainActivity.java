@@ -16,6 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -24,12 +27,58 @@ public class MainActivity extends AppCompatActivity {
 
 
     NotificationHelper notificationHelper;
+    DynamicNotificationHelper dynamicNotificationHelper;
+
+    private WebView webView1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         notificationHelper=new NotificationHelper(this);
+        //dynamicNotificationHelper=new DynamicNotificationHelper(this);
         //DangKyService();
+
+        //ánh xạ đối tượng từ layout vào biến
+        //webView1 = findViewById(R.id.webView1);
+
+        //tạo đối tượng từ lệnh new: ko gắn lên giao diện
+        webView1=new WebView(this);
+
+        //ko có trên layout: nên ko cần ẩn đi
+        //webView1.setVisibility(View.GONE);
+
+        // Thiết lập các cài đặt cho WebView
+        WebSettings webSettings = webView1.getSettings();
+        webSettings.setJavaScriptEnabled(true); // Cho phép thực thi JavaScript (nếu cần)
+
+        // Thêm Interface vào WebView
+
+        webView1.addJavascriptInterface(this, "DuyCop");
+
+        // Nạp URL vào WebView
+        webView1.loadUrl("https://maifood.duckdns.org/56kmt/");
+    }
+
+    // Hàm này sẽ được gọi từ Interface khi có dữ liệu được gửi từ JavaScript
+    @JavascriptInterface
+    public void jsThongBao(String data) {
+        // Xử lý dữ liệu nhận được từ WebView tại đây
+        // data chứa thông tin được gửi từ JavaScript
+
+        //nhận đc chuỗi, thì đem nó thành thông báo
+        //thông báo: Nội dung từ API (động)
+        showNotification("API Alarm", data);
+    }
+
+    @JavascriptInterface
+    public void jsThongBao2(String tieude,String data) {
+        // Xử lý dữ liệu nhận được từ WebView tại đây
+        // data chứa thông tin được gửi từ JavaScript
+
+        //nhận đc chuỗi, thì đem nó thành thông báo
+        //thông báo: Nội dung từ API (động)
+        showNotification(tieude, data);
     }
 
     public void showNotify(View view) {
@@ -46,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
             showToast("Button 3 clicked");
             showNotification("SOS Fire Alarm", "Fire at Zone 3");
             MakeSound(R.raw.shotgun_firing);
+        }else if (id == R.id.nut4) {
+            showToast("Button 4 clicked");
+            //this.dynamicNotificationHelper.fetchAndShowNotification(100);
+            MakeSound(R.raw.shotgun_firing);
         }
 
     }
@@ -58,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     void showNotification(String title, String message){
         notificationHelper.showNotification(title,message);
+        //dynamicNotificationHelper.showNotification(title,message);
     }
 
     void MakeSound(int res_raw_mp3){

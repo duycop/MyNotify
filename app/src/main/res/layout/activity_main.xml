@@ -36,4 +36,16 @@
         android:layout_height="wrap_content"
         android:onClick="showNotify"
         android:text="MP3 ShotGun+Noitify_Sound" />
+    <Button
+        android:id="@+id/nut4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showNotify"
+        android:text="Dynamic Notify" />
+
+<!--    <WebView-->
+<!--        android:id="@+id/webView1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:visibility="gone" />-->
 </LinearLayout>
